@@ -1,6 +1,6 @@
 import xerial.sbt.pack.PackPlugin._
 
-name := "untitled"
+name := "Mp3BBib"
 
 version := "0.1"
 

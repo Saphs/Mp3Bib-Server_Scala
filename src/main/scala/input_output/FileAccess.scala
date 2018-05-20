@@ -68,8 +68,9 @@ trait FileAccess extends Logging{
     new File(path).delete()
   }
 
-  def findMp3Locations(path: String): Seq[String] = {
-    listFiles(new File(path)).map( _.getAbsolutePath )
+  def findMp3Locations(path: String, recursive: Boolean): Seq[String] = {
+    //TODO: Make implicit conversion to mp3 possible somehow
+    listFiles(new File(path), recursive).map( _.getAbsolutePath ).filter(_.endsWith(".mp3"))
   }
 
   private def listFiles(base: File, recursive: Boolean = true): Seq[File] = {
@@ -81,4 +82,6 @@ trait FileAccess extends Logging{
         .filter(_ => recursive)
         .flatMap(listFiles(_, recursive))
   }
+
+
 }

@@ -1,16 +1,19 @@
 
-
+import com.mpatric.mp3agic.Mp3File
+import net.liftweb.json._
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
+import model.requests.InsertCall
 import org.mongodb.scala.bson.collection.immutable.Document
 
 import scala.concurrent.ExecutionContext
 
 class Mp3BibController extends Controller {
 
-  implicit val ec: ExecutionContext = ExecutionContext.global
-
   val service: Mp3ManipulationService.type = Mp3ManipulationService
+
+  implicit val ec: ExecutionContext = ExecutionContext.global
+  implicit val formats: DefaultFormats.type = service.formats
 
   get("/collection") { request: Request =>
     info("Recieved request on /collection")
@@ -22,17 +25,18 @@ class Mp3BibController extends Controller {
       response.ok.contentTypeJson().body(responseJson)
     }
   }
-
-  get("/testInsert") { request: Request => //this should use a put
-    info("Recieved request on /collection")
-    val mp3 = service.readMp3("src/test/resources/example.mp3")
-
-    mp3 match {
-      case Some(file) =>
-        val futureResult = service.writeOneDataSet(file)
-        futureResult.map(response.ok)
-      case None =>
-        response.conflict
+  // This needs to handle exceptions more gracefully, TODO: Refine malformed request handling
+  put("/insert") { request: Request =>
+    info(s"Recieved request on /insert with body: ${request.contentString}")
+    val insertCall = parseOpt(request.contentString).map(_.extract[InsertCall])
+    info(insertCall)
+    val files: Seq[Option[Mp3File]] = insertCall.get match {
+      case InsertCall(src, 1) => Seq(service.readMp3(src))
+      case InsertCall(src, 2) => service.findMp3Locations(src, recursive = false).map(service.readMp3)
+      case InsertCall(src, 3) => service.findMp3Locations(src, recursive = true).map(service.readMp3)
     }
+    val cleanFiles = files.flatten
+    cleanFiles.foreach(file => service.writeOneDataSet(file) )
+      response.ok(s"Wrote ${cleanFiles.size} files to database:\n${cleanFiles.map(_.getFilename.split("\\\\").last)}")
   }
 }

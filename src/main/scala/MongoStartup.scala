@@ -11,7 +11,7 @@ object MongoStartup extends{
     val process = Process(cmd)
     val io = BasicIO.standard(false)
 
-   Future( process.run(io) )
+    Future( process.run(io) )
   }
 }
 

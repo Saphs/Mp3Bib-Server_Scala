@@ -14,7 +14,7 @@ trait BasicDAO extends DBAccess with FileAccess{
   implicit val formats: DefaultFormats.type = DefaultFormats
 
   val defaultPath = "C:\\Users\\Tiz\\Videos\\4K Video Downloader"
-  lazy val diskLocations: Seq[String] = findMp3Locations(defaultPath)
+  lazy val diskLocations: Seq[String] = findMp3Locations(defaultPath, recursive = true)
 
 }
 
