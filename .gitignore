@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+#idea specific
+target
+out
+.idea
+VSPraktikum.iml
+
+#netbeans specific
+core
+nbproject/*
+!nbproject/project.properties
+!nbproject/project.xml
