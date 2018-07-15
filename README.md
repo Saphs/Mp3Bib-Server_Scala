@@ -1,2 +1,2 @@
-# Mp3Bib-Server_Scala
-Backend for the Scala based mp3 manipulation tool. Implementing a server that is meant to be called through a frontend client.
+# Mp3Bib [Eidos]
+Scala based mp3 manipulation tool. The tool so far will use a http based rest interface between front- and backend.
