@@ -3,9 +3,9 @@ package input_output
 import java.io.File
 import java.util.UUID
 
-import util.Logging
 import com.mpatric.mp3agic.Mp3File
 
+import util.Logging
 import scala.util.Try
 
 
@@ -70,7 +70,10 @@ trait FileAccess extends Logging{
 
   def findMp3Locations(path: String, recursive: Boolean): Seq[String] = {
     //TODO: Make implicit conversion to mp3 possible somehow
-    listFiles(new File(path), recursive).map( _.getAbsolutePath ).filter(_.endsWith(".mp3"))
+    listFiles(new File(path), recursive).map{ seq =>
+      println(s"seq $seq")
+      seq.getAbsolutePath
+    }.filter(_.endsWith(".mp3"))
   }
 
   private def listFiles(base: File, recursive: Boolean = true): Seq[File] = {

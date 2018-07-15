@@ -1,4 +1,5 @@
 package model
+
 import net.liftweb.json._
 
 trait SimpleJsonSerialization {

@@ -1,25 +1,12 @@
-import xerial.sbt.pack.PackPlugin._
+name := "Eidos-root"
 
-name := "Mp3BBib"
-
-version := "0.1"
+version := "0.0.1"
 
 scalaVersion := "2.12.4"
 
-enablePlugins(PackPlugin)
+lazy val root = Project(id = "root", base = file(".")).aggregate(backend, frontend).dependsOn(backend, frontend)
 
-libraryDependencies ++= Seq(
-  "com.twitter" %% "finatra-http" % "17.10.0",
-  "ch.qos.logback" % "logback-classic" % "1.1.7",
+lazy val backend = Project(id = "backend", base = file("backend")).aggregate(share).dependsOn(share)
+lazy val frontend = Project(id = "frontend", base = file("frontend")).aggregate(share).dependsOn(share)
 
-  "org.mongodb.scala" %% "mongo-scala-driver" % "2.1.0",
-
-  "com.mpatric" % "mp3agic" % "0.9.1",
-
-  "org.scalactic" %% "scalactic" % "3.0.4",
-  "org.scalatest" %% "scalatest" % "3.0.4" % "test",
-
-
-  "net.liftweb" %% "lift-json" % "3.1.1"
-
-)
+lazy val share = Project(id = "share", base = file("share"))

@@ -1,5 +1,6 @@
 
 import com.twitter.util.Future
+
 import scala.sys.process._
 
 object MongoStartup extends{

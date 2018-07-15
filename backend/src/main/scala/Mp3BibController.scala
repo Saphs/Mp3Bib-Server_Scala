@@ -1,9 +1,9 @@
 
 import com.mpatric.mp3agic.Mp3File
-import net.liftweb.json._
 import com.twitter.finagle.http.Request
 import com.twitter.finatra.http.Controller
 import model.requests.InsertCall
+import net.liftweb.json._
 import org.mongodb.scala.bson.collection.immutable.Document
 
 import scala.concurrent.ExecutionContext
